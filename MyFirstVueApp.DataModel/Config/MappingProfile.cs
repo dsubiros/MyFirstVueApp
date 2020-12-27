@@ -15,3 +15,5 @@ namespace MyFirstVueApp.Database.Config
         }    
     }
 }
+
+// optionsBuilder.UseSqlServer($"Server=.;Initial Catalog=Blogging;User Id={(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "tareko" : "sa")};Password=A123456*;MultipleActiveResultSets=true");
