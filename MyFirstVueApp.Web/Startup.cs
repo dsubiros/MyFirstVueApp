@@ -36,6 +36,7 @@ namespace MyFirstVueApp.Web
                 );
             
             
+            
             // services.AddAutoMapper(typeof(Startup));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             // Auto Mapper Configurations
