@@ -1,0 +1,1 @@
+dotnet ef dbcontext scaffold -v "Server=.;Initial Catalog=Blogging;User Id=tareko;Password=A123456*;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer -o Models --force
