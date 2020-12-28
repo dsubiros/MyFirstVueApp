@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -21,14 +20,14 @@ namespace MyFirstVueApp.Database.Models
         public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Todo> Todos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer($"Server=.;Initial Catalog=Blogging;User Id={(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "tareko" : "sa")};Password=A123456*;MultipleActiveResultSets=true");
-                // optionsBuilder.UseSqlServer("Server=.;Initial Catalog=Blogging;User Id=tareko;Password=A123456*;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=.;Initial Catalog=Blogging;User Id=tareko;Password=A123456*;MultipleActiveResultSets=true");
             }
         }
 
@@ -92,6 +91,22 @@ namespace MyFirstVueApp.Database.Models
                     .HasForeignKey(d => d.BlogId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Post_To_Blog");
+            });
+
+            modelBuilder.Entity<Todo>(entity =>
+            {
+                entity.ToTable("Todo");
+
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Enabled)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
