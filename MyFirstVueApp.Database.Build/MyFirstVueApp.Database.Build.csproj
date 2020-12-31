@@ -1,0 +1,10 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/1.10.0">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>MyFirstVueApp.Database.Build</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\MyFirstVueApp.Database\Tables\**\*.sql" />
+        <Content Include="..\MyFirstVueApp.Database\StoredProcedures\**\*.sql" />
+    </ItemGroup>
+</Project>
