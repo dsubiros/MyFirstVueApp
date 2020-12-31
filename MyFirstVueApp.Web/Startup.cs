@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyFirstVueApp.Database.Config;
 using VueCliMiddleware;
 
 namespace MyFirstVueApp.Web
@@ -35,22 +34,8 @@ namespace MyFirstVueApp.Web
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
             
-            
-            
-            // services.AddAutoMapper(typeof(Startup));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            // Auto Mapper Configurations
-            // services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            // var mapperConfig = new MapperConfiguration(mc =>
-            // {
-            //     mc.AddProfile(new MappingProfile());
-            // });
-            //
-            // IMapper mapper = mapperConfig.CreateMapper();
-            // services.AddSingleton(mapper);
-            
-            services.AddControllers();
+            // services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp";

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -8,13 +9,21 @@ namespace MyFirstVueApp.Database.Models
 {
     public partial class BloggingContext : DbContext
     {
-        public BloggingContext()
-        {
-        }
+        // public IConfiguration Configuration { get; }
+
+        // public BloggingContext()
+        // {
+        //     
+        // }
+        // public BloggingContext(IConfiguration configuration)
+        // {
+        //     Configuration = configuration;
+        // }
 
         public BloggingContext(DbContextOptions<BloggingContext> options)
             : base(options)
         {
+            
         }
 
         public virtual DbSet<Blog> Blogs { get; set; }
@@ -26,8 +35,15 @@ namespace MyFirstVueApp.Database.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;Initial Catalog=Blogging;User Id=tareko;Password=A123456*;MultipleActiveResultSets=true");
+// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                 // optionsBuilder
+                 //     .EnableSensitiveDataLogging()
+                 //     .EnableDetailedErrors()
+                 //     .UseSqlServer($"Server=.;Initial Catalog=Blogging;User Id={(OperatingSystem.IsLinux() ? "sa" : "tareko")};Password=A123456*;MultipleActiveResultSets=true");
+                 // optionsBuilder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+                // services.AddDbContext<BloggingContext>(options =>
+                //     options.UseSqlServer(
+                //         Configuration.GetConnectionString("DefaultConnection")));
             }
         }
 
