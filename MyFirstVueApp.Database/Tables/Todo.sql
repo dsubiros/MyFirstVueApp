@@ -9,5 +9,5 @@ CREATE TABLE [dbo].[Todo]
     [Hide]                 BIT            DEFAULT ((0))       NOT NULL,
 
     PRIMARY KEY CLUSTERED ([TodoId] ASC)
-);
+    );
 GO

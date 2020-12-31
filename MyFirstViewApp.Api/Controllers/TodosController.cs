@@ -26,7 +26,21 @@ namespace MyFirstViewApp.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodos()
         {
-            return await _context.Todos.ToListAsync();
+            // var query = _context.Todos.AsQueryable();
+            
+            return await _context.Todos
+                .OrderBy(x => x.Enabled.ToString() )
+                // .OrderByDescending(x => x.Enabled ? 1 : 0)
+                // .ThenByDescending(x => x.UpdatedAt)
+                // .ThenByDescending(x => x.TodoId)
+                .ToListAsync();
+            
+            // return await _context.Todos
+            //     .OrderByDescending(x => x.Enabled !== null && x.Enabled ? 1 : 0)
+            //     // .ThenByDescending(x => x.UpdatedAt)
+            //     // .ThenByDescending(x => x.TodoId)
+            //     // .ThenByDescending(x => x.UpdatedAt)
+            //     .ToListAsync();
         }
 
         // GET: api/Todos/5
@@ -71,7 +85,8 @@ namespace MyFirstViewApp.Api.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(todo);
+            // return NoContent();
         }
 
         // POST: api/Todos

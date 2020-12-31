@@ -45,7 +45,7 @@ export default class StudentList extends Vue {
   }
   
   async getBlogs(): Promise<void> {
-    const data: Blog[] = (await axios.get('http://localhost:5000/blogs'))?.data || [];
+    const data: Blog[] = (await axios.get('http://localhost:5003/api/blogs'))?.data || [];
     
     this.blogs = data.map(blog => ({...blog, enabled: false, background: 'red'}));
   }
