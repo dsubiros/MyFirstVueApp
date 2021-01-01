@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstVueApp.DataModel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstVueApp.Database", "MyFirstVueApp.Database\MyFirstVueApp.Database.csproj", "{2B06476C-399E-4AD9-8D69-C3D37B5237FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstViewApp.Api", "MyFirstViewApp.Api\MyFirstViewApp.Api.csproj", "{649D2359-52E4-4E03-A4F3-320B4CF2BF6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstVueApp.Api", "MyFirstVueApp.Api\MyFirstVueApp.Api.csproj", "{649D2359-52E4-4E03-A4F3-320B4CF2BF6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFirstVueApp.Database.Build", "MyFirstVueApp.Database.Build\MyFirstVueApp.Database.Build.csproj", "{2B0675B4-6842-49BD-A035-C32B54C457E9}"
 EndProject

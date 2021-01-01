@@ -81,7 +81,7 @@ namespace MyFirstViewApp.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MyFirstViewApp.Api", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MyFirstVueApp.Api", Version = "v1"});
             });
         }
 
@@ -92,7 +92,7 @@ namespace MyFirstViewApp.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerUI();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFirstViewApp.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFirstVueApp.Api v1"));
             }
 
             app.UseHttpsRedirection();

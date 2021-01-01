@@ -4,11 +4,10 @@
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div> -->
   <div>
-<!--    <HelloWorld/>-->
-<!--    <StudentList></StudentList>-->
+    <!--    <HelloWorld/>-->
+    <!--    <StudentList></StudentList>-->
     <h1>This is the Home component</h1>
   </div>
-  
 </template>
 
 <script lang="ts">

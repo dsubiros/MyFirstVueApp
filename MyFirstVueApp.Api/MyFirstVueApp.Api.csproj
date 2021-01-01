@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
       <UserSecretsId>dc33e126-8602-4949-8e70-8b39fe1414ea</UserSecretsId>
+      <RootNamespace>MyFirstViewApp.Api</RootNamespace>
   </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
