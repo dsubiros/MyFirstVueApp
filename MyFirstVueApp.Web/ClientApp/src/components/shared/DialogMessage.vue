@@ -12,6 +12,7 @@
           v-on="on"
           :plain="entryButtonType === 'plain'"
           :depressed="entryButtonType === 'depressed'"
+          :icon="entryButtonIsIcon"
       >
         <v-icon v-if="showEntryButtonIcon">{{ entryButtonIcon }}</v-icon>
 
@@ -49,13 +50,14 @@ import Component from "vue-class-component";
 import {Prop, Vue, Watch} from "vue-property-decorator";
 
 @Component({})
-export default class Dialog extends Vue {
+export default class DialogMessage extends Vue {
 
   @Prop({type: String, default: ''})
-  title;
+  title: string;
 
+  
   @Prop({type: String, default: ''})
-  text;
+  text: string;
 
   @Prop({type: Number, default: 350})
   maxWidth;
@@ -78,8 +80,11 @@ export default class Dialog extends Vue {
   @Prop({type: Boolean, default: true})
   showEntryButtonText;
 
-  @Prop({type: String, default: 'depressed'})
+  @Prop({type: String, default: 'icon'})
   entryButtonType;
+  
+  @Prop({type: Boolean, default: false})
+  entryButtonIsIcon: boolean;
 
   @Prop({type: String, default: ''})
   entryButtonColor;

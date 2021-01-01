@@ -36,23 +36,20 @@
 
     <v-main>
 <!--      <HelloWorld />-->
-      <TodoListVuetify />
+      <TodoList />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import BlogList from "@/components/BlogList.vue";
-import TodoList from "@/components/TodoList.vue";
-import TodoListVuetify from "@/components/TodoListVuetify.vue";
+import TodoList from "@/components/todos/TodoList.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    TodoListVuetify
+    TodoList: TodoList
   },
 
   data: () => ({

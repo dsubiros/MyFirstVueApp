@@ -59,7 +59,7 @@ import Component from "vue-class-component";
 import axios from "axios";
 
 @Component({})
-export default class StudentList extends Vue {
+export default class TodoListOld extends Vue {
   todos: Todo[] = [];
   text = "";
   selectedId = -1;

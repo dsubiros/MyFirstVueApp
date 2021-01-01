@@ -37,12 +37,12 @@ import {Prop, Vue, Watch} from "vue-property-decorator";
 export default class Snackbar extends Vue {
 
   @Prop({type: Number, default: 2000})
-  timeout;
+  timeout: number;
   
   theTimeout = 2000;
 
   @Prop({type: String, default: ''})
-  text;
+  text: string;
 
   theText = '';
   open = false;
@@ -50,27 +50,27 @@ export default class Snackbar extends Vue {
   color = 'default';
 
   @Prop({type: Boolean, default: false})
-  isOpen;
+  isOpen: boolean;
 
   @Watch('open')
-  watchOpen(newValue) {
+  watchOpen(newValue: boolean) {
     if (!newValue)
       this.$emit('close');
   }
 
   @Watch('isOpen')
-  watchIsOpen(newValue) {
-    this.open = !!newValue;
+  watchIsOpen(newValue: boolean) {
+    this.open = newValue;
   }
 
   @Watch('text')
-  watchTextProp(newValue) {
+  watchTextProp(newValue: string) {
     if (newValue)
       this.theText = newValue;
   }
   
   @Watch('timeout')
-  watchTimeoutProp(newValue) {
+  watchTimeoutProp(newValue: number) {
     this.theTimeout = newValue;
   }
 

@@ -47,6 +47,12 @@
   <v-container style="width: 800px;">
     <h1>My Vuetify Todo Manager</h1>
     
+    <v-row justify="end" class="pr-7">
+      <v-col md="1" >
+        <v-btn color="primary">New</v-btn>
+      </v-col>
+    </v-row>
+    
     <v-row class="pt-5">
       <v-col>
         <v-data-table
@@ -54,9 +60,11 @@
             :items="todos"
             :items-per-page="5"
             class="elevation-1"
+            loading-text="Fetching data. Please wait..."
+            :loading="isLoading"
         >
           <template v-slot:item.actions="{ item }">
-            <Dialog :is-open="showDeleteDialog"
+            <DialogMessage :is-open="showDeleteDialog"
                     @result="onRemove(item)"
                     title="Remove Todo"
                     text="Are you sure to remove the selected item?"
@@ -65,7 +73,7 @@
                     :show-entry-button-text="false"
                     :show-entry-button-icon="true"
                     entry-button-icon="mdi-delete"
-                    entry-button-type="plain"
+                    :entry-button-is-icon="true"
                     entry-button-color="error"
                     v-if="item"
             />
@@ -81,7 +89,9 @@
 </template>
 
 <script lang="ts">
-import Dialog from "@/components/Dialog.vue";
+
+import Snackbar from "@/components/shared/Snackbar.vue";
+import DialogMessage from "@/components/shared/DialogMessage.vue";
 
 export interface Todo {
   todoId?: number;
@@ -94,12 +104,11 @@ export interface Todo {
 import { Prop, Vue, Watch } from "vue-property-decorator";
 import Component from "vue-class-component";
 import axios from "axios";
-import Snackbar from "@/components/Snackbar.vue";
 
 @Component({
-  components: {Snackbar, Dialog}
+  components: {Snackbar, DialogMessage}
 })
-export default class TodoListVuetify extends Vue {
+export default class TodoList extends Vue {
   headers = [
     { text: 'ID', value: 'todoId' },
     { text: 'Text', value: 'text' },
@@ -111,13 +120,22 @@ export default class TodoListVuetify extends Vue {
 
   showDeleteDialog = false;
   todos: Todo[] = [];
+  isLoading = false;
   text = "";
   selectedId = -1;
   editMode = false;
   messageText = '';
+  
 
   async getTodos(): Promise<void> {
-    this.todos = ((await axios.get('https://localhost:5003/api/todos'))?.data as Todo[] || []).map(item => ({...item, updatedAt: item.updatedAt || item.createdAt}));
+    try {
+      this.isLoading = true;
+      this.todos = ((await axios.get('https://localhost:5003/api/todos'))?.data as Todo[] || []).map(item => ({...item, updatedAt: item.updatedAt || item.createdAt}));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   get removedItemCount() {
@@ -173,10 +191,10 @@ export default class TodoListVuetify extends Vue {
       // await axios.delete(`https://localhost:5003/api/todos/${item.todoId}111`);
       await axios.delete(`https://localhost:5003/api/todos/${item.todoId}`);
       this.todos = this.todos.filter(x => x.todoId !== item.todoId);
-      this.$refs.snackbarRef.showInfoMessage('The Todo was removed successfully.')
+      (this.$refs.snackbarRef as Snackbar).showInfoMessage('The Todo was removed successfully.')
     } catch (e) {
       console.error(e);
-      this.$refs.snackbarRef.showErrorMessage('An error happened while removing the Todo.')
+      (this.$refs.snackbarRef as Snackbar).showErrorMessage('An error happened while removing the Todo.')
     }
   }
 

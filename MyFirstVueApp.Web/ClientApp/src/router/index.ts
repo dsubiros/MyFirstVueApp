@@ -19,15 +19,15 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
-  {
-    path: "/student-list",
-    name: "StudentList",
-    component: () => import("../components/StudentList.vue")
-  },
+  // {
+  //   path: "/student-list",
+  //   name: "StudentList",
+  //   component: () => import("../components/StudentList.vue")
+  // },
   {
     path: "/todo-list",
     name: "TodoList",
-    component: () => import("../components/TodoList.vue")
+    component: () => import("../components/todos/TodoList.vue")
   }
 ];
 
