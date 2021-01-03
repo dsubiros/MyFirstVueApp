@@ -46,13 +46,16 @@
 
   <v-container style="width: 800px;">
     <h1>My Vuetify Todo Manager</h1>
-    
+
+    <div>selectedItem: {{selectedItem}}</div>
+    <div>selectedItemIndex: {{selectedItemIndex}}</div>
+
     <v-row justify="end" class="pr-7">
       <v-col md="1" >
         <v-btn color="primary">New</v-btn>
       </v-col>
     </v-row>
-    
+
     <v-row class="pt-5">
       <v-col>
         <v-data-table
@@ -65,18 +68,21 @@
         >
           <template v-slot:item.actions="{ item }">
             <DialogMessage :is-open="showDeleteDialog"
-                    @result="onRemove(item)"
-                    title="Remove Todo"
-                    text="Are you sure to remove the selected item?"
-                    :max-width="400"
-                    entry-button-text="Remove"
-                    :show-entry-button-text="false"
-                    :show-entry-button-icon="true"
-                    entry-button-icon="mdi-delete"
-                    :entry-button-is-icon="true"
-                    entry-button-color="error"
-                    v-if="item"
+                           @result="onRemove(item)"
+                           title="Remove Todo"
+                           text="Are you sure to remove the selected item?"
+                           :max-width="400"
+                           :show-entry-button-text="false"
+                           :show-entry-button-icon="true"
+                           entry-button-text="Remove"
+                           entry-button-icon="mdi-delete"
+                           :entry-button-is-icon="true"
+                           entry-button-color="error"
+                           v-if="item"
             />
+            <v-btn @click="editItem(item)" icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -85,6 +91,24 @@
     <Snackbar :text="messageText" @close="messageText = ''" ref="snackbarRef" :is-open="!!messageText"/>
 
     <button @click="messageText = 'Open me!'">Open me</button>
+
+    <!--    :is-open="selectedItem"-->
+    <!--    @input="$emit('input', $event)"-->
+    <!--    :is-open="!!selectedItem"-->
+    <!--    @input="selectedItem = null"-->
+    <!--    v-model="showEditDialog"-->
+    <!--    :is-open="showEditDialog"-->
+
+    <TodoForm v-model="showTodoItemForm"
+              title="Edit Todo"
+              :item="selectedItem"
+              @save-item-offline="updateTodoItem($event)"
+              :entry-button-is-icon="true"
+              :show-entry-button-icon="true"
+              :show-entry-button-text="false"
+              entry-button-icon="mdi-pencil"
+              entry-button-text="Remove"
+    />
   </v-container>
 </template>
 
@@ -104,28 +128,36 @@ export interface Todo {
 import { Prop, Vue, Watch } from "vue-property-decorator";
 import Component from "vue-class-component";
 import axios from "axios";
+import TodoForm from "@/components/todos/TodoForm.vue";
 
 @Component({
-  components: {Snackbar, DialogMessage}
+  components: {TodoForm, Snackbar, DialogMessage}
 })
 export default class TodoList extends Vue {
   headers = [
     { text: 'ID', value: 'todoId' },
     { text: 'Text', value: 'text' },
     { text: 'Status', value: 'enabled' },
-    { text: 'Created At', value: 'createdAt' },
-    { text: 'Updated At', value: 'updatedAt' },
+    // { text: 'Created At', value: 'createdAt' },
+    // { text: 'Updated At', value: 'updatedAt' },
     { text: 'Actions', value: 'actions', sortable: false }
   ];
 
   showDeleteDialog = false;
+  showTodoItemForm = false;
+
   todos: Todo[] = [];
+
+  // selectedItem: Todo | undefined;
+
+  selectedItem: Todo = {};
+  selectedItemIndex = -1;
+
   isLoading = false;
   text = "";
   selectedId = -1;
   editMode = false;
   messageText = '';
-  
 
   async getTodos(): Promise<void> {
     try {
@@ -198,10 +230,36 @@ export default class TodoList extends Vue {
     }
   }
 
-  async onEdit(index: number) {
-    this.editMode = true;
-    this.selectedId = index;
-    this.text = this.todos[index].text;
+  // async onEdit(index: number) {
+  //   this.editMode = true;
+  //   this.selectedId = index;
+  //   this.text = this.todos[index].text;
+  // }
+
+  async editItem(item: Todo) {
+    // this.editMode = true;
+    // this.selectedId = index;
+    // this.text = this.todos[index].text;
+
+    this.selectedItemIndex = this.todos.findIndex(todo => todo.todoId === item.todoId);
+    this.selectedItem = Object.assign({}, item);
+    this.showTodoItemForm = true;
+  }
+  
+  updateTodoItem(todo: Todo) {
+    // debugger
+    if (!todo) return;
+    
+    // this.$nextTick(() => {
+    //   this.$set(this.todos, this.selectedItemIndex, todo);
+    //   this.todos = todo;
+    // })
+    // debugger
+    this.$set(this.todos, this.selectedItemIndex, todo);
+    
+    this.selectedItem = {}; 
+    this.selectedItemIndex = -1;
+    this.showTodoItemForm = false;
   }
 
   async mounted() {

@@ -4,15 +4,12 @@
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div> -->
   <div>
-    <!--    <HelloWorld/>-->
-    <!--    <StudentList></StudentList>-->
     <h1>This is the Home component</h1>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-// import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 import StudentList from "@/components/others/StudentList.vue"; // @ is an alias to /src
 
 @Component({
