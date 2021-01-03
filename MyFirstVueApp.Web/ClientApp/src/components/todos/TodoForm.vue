@@ -1,30 +1,30 @@
 <template>
-<!--  persistent-->
-<!--  v-model="isOpen"-->
-<!--  :value="isOpen"-->
-<!--  @input="$emit('input', $event)"-->
+  <!--  persistent-->
+  <!--  v-model="isOpen"-->
+  <!--  :value="isOpen"-->
+  <!--  @input="$emit('input', $event)"-->
   <v-dialog
       v-model="isOpen"
       :max-width="maxWidth"
   >
-<!--    <template v-slot:activator="{ on, attrs }">-->
-<!--      <v-btn-->
-<!--          :color="entryButtonColor || 'primary'"-->
-<!--          dark-->
-<!--          v-bind="attrs"-->
-<!--          v-on="on"-->
-<!--          :plain="entryButtonType === 'plain'"-->
-<!--          :depressed="entryButtonType === 'depressed'"-->
-<!--          :icon="entryButtonIsIcon"-->
-<!--      >-->
-<!--        <v-icon v-if="showEntryButtonIcon">{{ entryButtonIcon }}</v-icon>-->
-<!--        <span v-if="showEntryButtonText">{{ entryButtonIcon }}</span>-->
-<!--      </v-btn>-->
-<!--    </template>-->
+    <!--    <template v-slot:activator="{ on, attrs }">-->
+    <!--      <v-btn-->
+    <!--          :color="entryButtonColor || 'primary'"-->
+    <!--          dark-->
+    <!--          v-bind="attrs"-->
+    <!--          v-on="on"-->
+    <!--          :plain="entryButtonType === 'plain'"-->
+    <!--          :depressed="entryButtonType === 'depressed'"-->
+    <!--          :icon="entryButtonIsIcon"-->
+    <!--      >-->
+    <!--        <v-icon v-if="showEntryButtonIcon">{{ entryButtonIcon }}</v-icon>-->
+    <!--        <span v-if="showEntryButtonText">{{ entryButtonIcon }}</span>-->
+    <!--      </v-btn>-->
+    <!--    </template>-->
 
-<!--    <v-btn color="red" @click.native="$emit('input', false)">Close</v-btn>-->
+    <!--    <v-btn color="red" @click.native="$emit('input', false)">Close</v-btn>-->
 
-<!--    v-if="item"-->
+    <!--    v-if="item"-->
     <v-card :loading="isLoading">
       <v-card-title>
         <span class="headline">{{ title }}</span>
@@ -32,13 +32,9 @@
 
       <v-card-text>
         <v-container>
-          <div>selectedItem: {{item}}</div>
+<!--          <div>selectedItem: {{item}}</div>-->
           <v-row @keydown.enter="saveItemOffline()">
-            <v-col
-                cols="12"
-                sm="6"
-                md="4"
-            >
+            <v-col>
               <v-text-field
                   v-model="item.text"
                   label="Dessert name"
@@ -46,13 +42,15 @@
             </v-col>
             <v-col
                 cols="12"
-                sm="6"
+                sm="4"
                 md="4"
             >
-              <v-text-field
-                  v-model="item.enabled"
-                  label="Calories"
-              ></v-text-field>
+<!--              <v-text-field-->
+<!--                  v-model="item.enabled"-->
+<!--                  label="Calories"-->
+<!--              ></v-text-field>-->
+              
+              <v-checkbox label="Enabled?" v-model="item.enabled"></v-checkbox>
             </v-col>
           </v-row>
         </v-container>
@@ -60,7 +58,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-<!--        @click="close"-->
+        <!--        @click="close"-->
         <v-btn
             color="blue darken-1"
             text
@@ -68,8 +66,8 @@
         >
           Cancel
         </v-btn>
-<!--        @click="save"-->
-<!--        @click="isOpen = false"-->
+        <!--        @click="save"-->
+        <!--        @click="isOpen = false"-->
         <v-btn
             color="blue darken-1"
             text
@@ -86,19 +84,20 @@
 import Component from "vue-class-component";
 import {Emit, Prop, Vue, Watch} from "vue-property-decorator";
 import {Todo} from "@/components/todos/TodoList.vue";
+import axios from "axios";
 
 @Component({})
 export default class TodoForm extends Vue {
 
   @Prop()
   item: Todo;
-  
+
   @Prop({type: String, default: ''})
   title: string;
 
   @Prop({type: Number, default: 350})
   maxWidth: number;
-    
+
   @Prop({type: String, default: 'Yes'})
   yesButtonLabel;
 
@@ -137,18 +136,53 @@ export default class TodoForm extends Vue {
 
   @Prop({type: Boolean, default: false})
   value;
-  
+
   set isOpen(value: boolean) {
     this.$emit('input', value);
   }
-  
+
   get isOpen() {
     return this.value;
   }
 
   @Emit()
-  saveItemOffline() {
-    this.$emit('save-item-offline', this.item);
+  async saveItemOffline() {
+    await this.onSubmit();
+  }
+
+  async onSubmit() {
+    console.warn("Will submit Todo!");
+    if (!this.item.text) return;
+
+    let item;
+    let result;
+
+    try {
+
+      if (this.item.todoId) {
+        item = this.item;
+        result = (await axios.put(`https://localhost:5003/api/todos/${item.todoId}`, item))?.data as Todo;
+      } else {
+        item = {
+          text: this.text,
+          enabled: true
+        } as Todo;
+        result = (await axios.post("https://localhost:5003/api/todos", item))?.data as Todo;
+      }
+
+      // this.$nextTick(() => this.isLoading = true);
+      // this.$set('isLoading', true);
+      
+      this.$emit('save-item-offline', result);
+      
+      // await this.getTodos();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      // this.isLoading = false;
+      // this.$nextTick(() => this.isLoading = false);
+      // this.$set('isLoading', false);
+    }
   }
 
 //   show: {
@@ -159,7 +193,6 @@ export default class TodoForm extends Vue {
 //       this.$emit('input', value)
 //    }
 // }
-
   // @Watch('dialog')
   // watchDialog() {
   //   if (this.result)
@@ -167,7 +200,6 @@ export default class TodoForm extends Vue {
   //     this.$emit('result', this.item);
   //   this.result = false;
   // }
-
   // @Watch('isOpen')
   // watchIsOpen(newValue: boolean) {
   //   // debugger

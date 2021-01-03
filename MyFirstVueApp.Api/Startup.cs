@@ -20,7 +20,6 @@ namespace MyFirstViewApp.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
         }
 
         public IConfiguration Configuration { get; }
@@ -29,8 +28,15 @@ namespace MyFirstViewApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            services.AddCors(o => 
+                o.AddPolicy("MyPolicy", builder => {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                }));
             
+            DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             
             services.AddDbContext<BloggingContext>(
                 options => options.UseSqlServer(DefaultConnectionString));
@@ -63,13 +69,7 @@ namespace MyFirstViewApp.Api
             
             // services.AddScoped<IBloggingContext>(provider => provider.GetService<BloggingContext>());
             
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+            
             
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

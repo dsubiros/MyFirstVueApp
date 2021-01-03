@@ -108,6 +108,7 @@
               :show-entry-button-text="false"
               entry-button-icon="mdi-pencil"
               entry-button-text="Remove"
+              :max-width="400"
     />
   </v-container>
 </template>
