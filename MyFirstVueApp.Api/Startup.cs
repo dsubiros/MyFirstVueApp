@@ -36,7 +36,8 @@ namespace MyFirstViewApp.Api
                         .AllowAnyHeader();
                 }));
             
-            DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            DefaultConnectionString = "Server=127.0.0.1;Trusted_Connection=True;Initial Catalog=Blogging;MultipleActiveResultSets=true;User Id=tareko;Password=A123456*;";
+            // DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             
             services.AddDbContext<BloggingContext>(
                 options => options.UseSqlServer(DefaultConnectionString));
