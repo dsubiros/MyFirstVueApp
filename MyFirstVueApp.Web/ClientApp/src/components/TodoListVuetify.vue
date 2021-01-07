@@ -1,7 +1,6 @@
 <template>
   <!--  <div id="todo-list">-->
 
-
   <!--    <div class="item-list">-->
   <!--      <form @submit.prevent="onSubmit">-->
   <!--        <input-->
@@ -46,35 +45,41 @@
 
   <v-container style="width: 800px;">
     <h1>My Vuetify Todo Manager</h1>
-    
+
     <v-row class="pt-5">
       <v-col>
         <v-data-table
-            :headers="headers"
-            :items="todos"
-            :items-per-page="5"
-            class="elevation-1"
+          :headers="headers"
+          :items="todos"
+          :items-per-page="5"
+          class="elevation-1"
         >
           <template v-slot:item.actions="{ item }">
-            <Dialog :is-open="showDeleteDialog"
-                    @result="onRemove(item)"
-                    title="Remove Todo"
-                    text="Are you sure to remove the selected item?"
-                    :max-width="400"
-                    entry-button-text="Remove"
-                    :show-entry-button-text="false"
-                    :show-entry-button-icon="true"
-                    entry-button-icon="mdi-delete"
-                    entry-button-type="plain"
-                    entry-button-color="error"
-                    v-if="item"
+            <Dialog
+              :is-open="showDeleteDialog"
+              @result="onRemove(item)"
+              title="Remove Todo"
+              text="Are you sure to remove the selected item?"
+              :max-width="400"
+              entry-button-text="Remove"
+              :show-entry-button-text="false"
+              :show-entry-button-icon="true"
+              entry-button-icon="mdi-delete"
+              entry-button-type="plain"
+              entry-button-color="error"
+              v-if="item"
             />
           </template>
         </v-data-table>
       </v-col>
     </v-row>
 
-    <Snackbar :text="messageText" @close="messageText = ''" ref="snackbarRef" :is-open="!!messageText"/>
+    <Snackbar
+      :text="messageText"
+      @close="messageText = ''"
+      ref="snackbarRef"
+      :is-open="!!messageText"
+    />
 
     <button @click="messageText = 'Open me!'">Open me</button>
   </v-container>
@@ -97,16 +102,16 @@ import axios from "axios";
 import Snackbar from "@/components/Snackbar.vue";
 
 @Component({
-  components: {Snackbar, Dialog}
+  components: { Snackbar, Dialog }
 })
 export default class TodoListVuetify extends Vue {
   headers = [
-    { text: 'ID', value: 'todoId' },
-    { text: 'Text', value: 'text' },
-    { text: 'Status', value: 'enabled' },
-    { text: 'Created At', value: 'createdAt' },
-    { text: 'Updated At', value: 'updatedAt' },
-    { text: 'Actions', value: 'actions', sortable: false }
+    { text: "ID", value: "todoId" },
+    { text: "Text", value: "text" },
+    { text: "Status", value: "enabled" },
+    { text: "Created At", value: "createdAt" },
+    { text: "Updated At", value: "updatedAt" },
+    { text: "Actions", value: "actions", sortable: false }
   ];
 
   showDeleteDialog = false;
@@ -114,10 +119,13 @@ export default class TodoListVuetify extends Vue {
   text = "";
   selectedId = -1;
   editMode = false;
-  messageText = '';
+  messageText = "";
 
   async getTodos(): Promise<void> {
-    this.todos = ((await axios.get('https://localhost:5003/api/todos'))?.data as Todo[] || []).map(item => ({...item, updatedAt: item.updatedAt || item.createdAt}));
+    this.todos = (
+      ((await axios.get("https://localhost:5003/api/todos"))?.data as Todo[]) ||
+      []
+    ).map(item => ({ ...item, updatedAt: item.updatedAt || item.createdAt }));
   }
 
   get removedItemCount() {
@@ -143,7 +151,7 @@ export default class TodoListVuetify extends Vue {
       };
 
       const data: Todo = (
-          await axios.post("https://localhost:5003/api/todos", newTodo)
+        await axios.post("https://localhost:5003/api/todos", newTodo)
       )?.data;
       this.text = "";
       // this.todos = this.todos.concat(data);
@@ -159,7 +167,7 @@ export default class TodoListVuetify extends Vue {
 
     try {
       const result: Todo = (
-          await axios.put(`https://localhost:5003/api/todos/${item.todoId}`, item)
+        await axios.put(`https://localhost:5003/api/todos/${item.todoId}`, item)
       )?.data;
       // this.$set(this.todos, index, result);
       await this.getTodos();
@@ -173,10 +181,14 @@ export default class TodoListVuetify extends Vue {
       // await axios.delete(`https://localhost:5003/api/todos/${item.todoId}111`);
       await axios.delete(`https://localhost:5003/api/todos/${item.todoId}`);
       this.todos = this.todos.filter(x => x.todoId !== item.todoId);
-      this.$refs.snackbarRef.showInfoMessage('The Todo was removed successfully.')
+      this.$refs.snackbarRef.showInfoMessage(
+        "The Todo was removed successfully."
+      );
     } catch (e) {
       console.error(e);
-      this.$refs.snackbarRef.showErrorMessage('An error happened while removing the Todo.')
+      this.$refs.snackbarRef.showErrorMessage(
+        "An error happened while removing the Todo."
+      );
     }
   }
 

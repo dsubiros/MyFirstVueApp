@@ -29,7 +29,8 @@ namespace MyFirstViewApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            // DefaultConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            DefaultConnectionString = "Server=127.0.0.1;Trusted_Connection=True;Initial Catalog=Blogging;MultipleActiveResultSets=true;User Id=tareko;Password=A123456*;";
             
             
             services.AddDbContext<BloggingContext>(

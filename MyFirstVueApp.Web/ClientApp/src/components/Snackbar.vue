@@ -8,20 +8,11 @@
     <!--        Open Snackbar-->
     <!--      </v-btn>-->
 
-    <v-snackbar
-        v-model="open"
-        :timeout="theTimeout"
-        :color="color"
-    >
+    <v-snackbar v-model="open" :timeout="theTimeout" :color="color">
       {{ theText }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="open = false"
-        >
+        <v-btn color="blue" text v-bind="attrs" @click="open = false">
           Close
         </v-btn>
       </template>
@@ -31,65 +22,60 @@
 
 <script lang="ts">
 import Component from "vue-class-component";
-import {Prop, Vue, Watch} from "vue-property-decorator";
+import { Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({})
 export default class Snackbar extends Vue {
-
-  @Prop({type: Number, default: 2000})
+  @Prop({ type: Number, default: 2000 })
   timeout;
-  
+
   theTimeout = 2000;
 
-  @Prop({type: String, default: ''})
+  @Prop({ type: String, default: "" })
   text;
 
-  theText = '';
+  theText = "";
   open = false;
-  
-  color = 'default';
 
-  @Prop({type: Boolean, default: false})
+  color = "default";
+
+  @Prop({ type: Boolean, default: false })
   isOpen;
 
-  @Watch('open')
+  @Watch("open")
   watchOpen(newValue) {
-    if (!newValue)
-      this.$emit('close');
+    if (!newValue) this.$emit("close");
   }
 
-  @Watch('isOpen')
+  @Watch("isOpen")
   watchIsOpen(newValue) {
     this.open = !!newValue;
   }
 
-  @Watch('text')
+  @Watch("text")
   watchTextProp(newValue) {
-    if (newValue)
-      this.theText = newValue;
+    if (newValue) this.theText = newValue;
   }
-  
-  @Watch('timeout')
+
+  @Watch("timeout")
   watchTimeoutProp(newValue) {
     this.theTimeout = newValue;
   }
 
   showInfoMessage(text: string) {
     this.theText = text;
-    this.color = 'default';
+    this.color = "default";
     this.theTimeout = 2000;
     this.open = true;
   }
-  
+
   showErrorMessage(text: string) {
     this.theText = text;
-    this.color = 'pink';
+    this.color = "pink";
     this.theTimeout = 4000;
     this.open = true;
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
