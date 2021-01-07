@@ -1,54 +1,9 @@
 <template>
-  <!--  <div id="todo-list">-->
-
-
-  <!--    <div class="item-list">-->
-  <!--      <form @submit.prevent="onSubmit">-->
-  <!--        <input-->
-  <!--            type="text"-->
-  <!--            placeholder="What needs to be done?"-->
-  <!--            v-model="text"-->
-  <!--        />-->
-  <!--      </form>-->
-
-  <!--      <div class="info">-->
-  <!--        <div>Total: {{ todos.length }}</div>-->
-  <!--        <div>Done: {{ removedItemCount }}</div>-->
-  <!--      </div>-->
-  <!--      &lt;!&ndash;      <p>Text: {{text}}</p>&ndash;&gt;-->
-
-  <!--      <ul>-->
-  <!--        <transition-group-->
-  <!--            enter-active-class="animated bounceInUp"-->
-  <!--            leave-active-class="animated bounceOutDown"-->
-  <!--            name="list"-->
-  <!--        >-->
-  <!--          <li-->
-  <!--              v-for="(todo, index) in todos"-->
-  <!--              :key="index"-->
-  <!--              title="Click to change item status"-->
-  <!--              :class="{ disabled: !todo.enabled, hovered: selectedId === index }"-->
-  <!--              @click="toggleStatus(index)"-->
-  <!--              @mousemove="selectedId = index"-->
-  <!--          >-->
-  <!--            <div>-->
-  <!--              <strong>{{ todo.todoId + 1 }}- </strong>-->
-  <!--              <span>&nbsp;&nbsp; {{ todo.text }}</span>-->
-  <!--            </div>-->
-  <!--            &lt;!&ndash;            <button @click="onEdit(index)">Edit</button>&ndash;&gt;-->
-  <!--            <button @click="onRemove(index)">Remove</button>-->
-  <!--          </li>-->
-  <!--        </transition-group>-->
-  <!--      </ul>-->
-  <!--    </div>-->
-  <!--    &lt;!&ndash;    <div>todos: {{todos}}</div>&ndash;&gt;-->
-  <!--  </div>-->
-
   <v-container style="width: 800px;">
     <h1>My Vuetify Todo Manager</h1>
 
-    <div>selectedItem: {{selectedItem}}</div>
-    <div>selectedItemIndex: {{selectedItemIndex}}</div>
+<!--    <div>selectedItem: {{selectedItem}}</div>-->
+<!--    <div>selectedItemIndex: {{selectedItemIndex}}</div>-->
 
     <v-row justify="end" class="pr-7">
       <v-col md="1" >
